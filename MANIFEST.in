@@ -1,0 +1,1 @@
+recursive-include post_syncdb_hooks *.sql
