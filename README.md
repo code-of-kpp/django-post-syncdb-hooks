@@ -14,7 +14,22 @@ If you have multiple DB configuration, Django will call this hook with DB-alias 
 
 Partitioning is currently implemented only for PostgreSQL. Use `db_index` parameter in the fields of your models to automatically create indexes on partitions.
 
+Apply `post_syncdb_hooks.partitioning.to_partition` decorator to `save()` method of models involved into partitioning:
+
+```python
+from post_syncdb_hooks.partitioning import to_partition
+from django.db.models import Model
+
+class MyModel(Model):
+    #...
+    @to_partition
+    def save(self, *args, **kwargs):
+        #...
+        super(self.__class__, self).save(*args, **kwargs)
+```
+
 Drawbacks:
 
 * Empty indexes on master-table;
-* You need to run `manage.py syncdb` twice since Django create indexes after `post-syncdb` hook.
+* Two queries per `INSERT INTO` instead of one in PostgreSQL;
+* Need to run `manage.py syncdb` twice since Django create indexes after `post-syncdb` hook.
