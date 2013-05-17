@@ -22,8 +22,8 @@ def load_customized_sql(app, created_models, db, verbosity=2, **kwargs):
         if os.path.exists(custom_file):
             if verbosity >= 2:
                 print("Loading customized SQL for %s using file %s" %
-                      app.__name__,
-                      custom_file)
+                      (app.__name__,
+                      custom_file))
 
             try:
                 with open(custom_file, 'U') as fp:

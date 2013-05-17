@@ -3,6 +3,7 @@ from django.db import connections, DEFAULT_DB_ALIAS
 
 BROKEN_INSERT_RETURN = ('django.db.backends.postgresql_psycopg2', )
 
+
 def to_partition(func):
     """Decorator that wraps turning off `can_return_id_from_insert`
     db connection feature"""
