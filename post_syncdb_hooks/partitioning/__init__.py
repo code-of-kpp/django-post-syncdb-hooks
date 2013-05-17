@@ -9,10 +9,11 @@ def to_partition(func):
     db connection feature"""
     if any(((settings.DATABASES[alias]['ENGINE'] in BROKEN_INSERT_RETURN)
             for alias in settings.DATABASES)):
-        def wrapper(using=DEFAULT_DB_ALIAS, *args, **kwargs):
+        def wrapper(*args, **kwargs):
             """{}
             Wrapped with
             {}""".format(func.__doc__, to_partition.__doc__)
+            using = kwargs.get('using', DEFAULT_DB_ALIAS)
             kwargs['using'] = using
             if settings.DATABASES[using]['ENGINE'] in BROKEN_INSERT_RETURN:
                 oldval = connections[using].features.can_return_id_from_insert
